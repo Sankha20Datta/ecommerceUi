@@ -5,13 +5,24 @@ function ProductComponent({ selectedCategory }) {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [previousCategoryId,setpreviousCategoryId]=useState(1);
+
 
     // Fetch products when selected category or page changes
     useEffect(() => {
+        console.log(selectedCategory)
+        console.log(previousCategoryId)
+        if(selectedCategory!==previousCategoryId){
+            console.log('YES')
+            setCurrentPage(0);
+        }else{
+            setpreviousCategoryId(selectedCategory);
+            console.log('NO')
+        }
         if (selectedCategory === 0) return;  // Prevent fetching when no category is selected
 
-        const url = `http://localhost:8282/divineshop/products/search/findByCategoryId?id=${selectedCategory}&page=${currentPage}&size=50`;
-        console.log("Fetching products from:", url); // Check URL updates on button click
+        const url = `http://localhost:8282/divineshop/products/search/findByCategoryId?id=${selectedCategory}&page=${currentPage}&size=5`;
+        // console.log("Fetching products from:", url); // Check URL updates on button click
 
         axios.get(url)
             .then((response) => {
@@ -25,6 +36,7 @@ function ProductComponent({ selectedCategory }) {
     // Handle page change
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
+        setpreviousCategoryId(selectedCategory);
     };
 
     return (
@@ -49,7 +61,7 @@ function ProductComponent({ selectedCategory }) {
             </div>
 
             {/* Pagination Controls */}
-            <div className="pagination-controls mt-3">
+            <div className="pagination-controls mt-3" align="right">
                 {currentPage > 0 && (
                     <button className="btn btn-secondary" onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
                 )}

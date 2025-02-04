@@ -27,7 +27,7 @@ function ProductCategories() {
                     <ul>
                         {categories.map((category) => (
                             <div key={category.id}>
-                                <button className="btn bg-transparent" onClick={() => setCategoryId(category.id)}>
+                                <button className="btn bg-transparent categorybtn" onClick={() => setCategoryId(category.id)}>
                                     {category.categoryname}
                                 </button>
                             </div>
